@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Spring Application</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --dark-color: #333;
+            --light-color: #f8f9fa;
+            --accent-color: #fbbc05;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: var(--light-color);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem auto;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--dark-color);
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #e0a800;
+        }
+
+        .features {
+            padding: 4rem 0;
+            background-color: white;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .features-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background-color: var(--light-color);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            max-width: 700px;
+            margin: 0 auto 2rem auto;
+        }
+
+        .footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links li {
+            margin: 0 1rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer p {
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .debug-info {
+            background-color: #ffeb3b;
+            padding: 15px;
+            margin: 10px 0;
+            border: 1px solid #ffc107;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                margin-top: 1rem;
+                width: 100%;
+            }
+
+            .nav-links li {
+                margin: 0;
+                margin-right: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .features-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Thymeleaf Debug Info -->
+<div class="debug-info container">
+    <h3>Thymeleaf Debug Information</h3>
+    <p>If you can see this message with dynamic content below, Thymeleaf is working.</p>
+    <p>Current time: <span th:text="${#dates.format(#dates.createNow(), 'dd-MM-yyyy HH:mm:ss')}">01-01-2025 12:00:00</span></p>
+    <p>Template being rendered: <strong>index.html</strong></p>
+    <p>Thymeleaf expression test: 2 + 2 = <span th:text="4">4</span></p>
+</div>
+
+<!-- Header Navigation -->
+<header>
+    <div class="container">
+        <nav class="navbar">
+            <a href="#" class="logo" th:text="${appName} ?: 'My Spring App'">My Spring App</a>
+            <ul class="nav-links">
+                <li><a href="#" th:href="@{/}">Home</a></li>
+                <li><a href="#" th:href="@{/features}">Features</a></li>
+                <li><a href="#" th:href="@{/docs}">Documentation</a></li>
+                <li><a href="#" th:href="@{/contact}">Contact</a></li>
+                <li th:if="${isAuthenticated == null || !isAuthenticated}"><a href="#" th:href="@{/login}">Login</a></li>
+                <li th:if="${isAuthenticated != null && isAuthenticated}"><a href="#" th:href="@{/dashboard}">Dashboard</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container">
+        <h1 th:text="${heroTitle} ?: 'Welcome to My Spring Boot Application'">Welcome to My Spring Boot Application</h1>
+        <p th:text="${heroDescription} ?: 'A modern, responsive, and feature-rich application built with Spring Boot and Thymeleaf.'">
+            A modern, responsive, and feature-rich application built with Spring Boot and Thymeleaf.
+        </p>
+        <a href="#" th:href="@{/get-started}" class="btn">Get Started</a>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="container">
+        <div class="section-header">
+            <h2>Key Features</h2>
+            <p>Discover what makes our application stand out from the competition</p>
+        </div>
+        <div class="features-container">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>Fast & Efficient</h3>
+                <p>Optimized performance ensures quick response times and smooth user experience.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3>Secure by Design</h3>
+                <p>Built with security best practices to keep your data safe and protected.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-expand-alt"></i>
+                </div>
+                <h3>Highly Scalable</h3>
+                <p>Designed to grow with your needs, from small projects to enterprise solutions.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta">
+    <div class="container">
+        <h2>Ready to Get Started?</h2>
+        <p>Join thousands of users who are already enjoying the benefits of our application.</p>
+        <a href="#" th:href="@{/signup}" class="btn">Sign Up Now</a>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <ul class="footer-links">
+            <li><a href="#" th:href="@{/about}">About</a></li>
+            <li><a href="#" th:href="@{/privacy}">Privacy Policy</a></li>
+            <li><a href="#" th:href="@{/terms}">Terms of Service</a></li>
+            <li><a href="#" th:href="@{/contact}">Contact</a></li>
+        </ul>
+        <p>&copy; <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2025</span> <span th:text="${companyName} ?: 'Your Company'">Your Company</span>. All rights reserved.</p>
+    </div>
+</footer>
+</body>
+</html>
