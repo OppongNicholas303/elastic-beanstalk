@@ -1,0 +1,35 @@
+name: Deploy Java App to Elastic Beanstalk
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: '21'
+        distribution: 'adopt'
+    - name: Build with Maven
+      run: mvn clean package
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-west-1
+    - name: Upload JAR to S3
+      run: aws s3 cp target/demo-0.0.1-SNAPSHOT.jar s3://lap-application-week3/demo-0.0.1-SNAPSHOT.jar
+    - name: Deploy to Elastic Beanstalk
+      run: |
+        aws elasticbeanstalk create-application-version \
+          --application-name ebs-spring-app \
+          --version-label ${{ github.sha }} \
+          --source-bundle S3Bucket="lap-application-week3",S3Key="demo-0.0.1-SNAPSHOT.jar"
+        aws elasticbeanstalk update-environment \
+          --environment-name Ebs-spring-app-env \
+          --version-label ${{ github.sha }}
